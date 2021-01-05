@@ -155,7 +155,7 @@ namespace AoC2019.Day24
         private static int GetNumberOfMatchesFromInception(Map3D<bool> map, Point3D point)
         {
             var z = point.Z + 1;
-            bool[] line;
+            bool[] line = null;
 
             if (z >= map.SizeZ)
             {
