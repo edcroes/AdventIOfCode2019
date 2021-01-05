@@ -6,7 +6,7 @@ namespace AoC2019.Common.IntCodeComputer
 {
     public class IntCodeComputer
     {
-        private int instructionPointer;
+        private int _instructionPointer;
         private int[] _memory;
         private readonly Dictionary<int, IInstruction> _instructionSet;
         private const int HaltOpcode = 99;
@@ -18,15 +18,15 @@ namespace AoC2019.Common.IntCodeComputer
 
         public void Execute(int[] program)
         {
-            instructionPointer = 0;
+            _instructionPointer = 0;
             _memory = new int[program.Length];
             Array.Copy(program, _memory, program.Length);
 
             while (true)
             {
-                var instruction = DecodeInstruction(_memory[instructionPointer]);
+                var instruction = DecodeInstruction(_memory[_instructionPointer]);
                 var parameters = GetInstructionParameters(instruction.Length);
-                instructionPointer += instruction.Length;
+                _instructionPointer += instruction.Length;
 
                 if (instruction.Opcode == HaltOpcode)
                 {
@@ -39,18 +39,25 @@ namespace AoC2019.Common.IntCodeComputer
 
         public int GetMemory(int address)
         {
-            AssertProgramRegisterIndex(address);
+            AssertMemoryIndex(address);
             return _memory[address];
         }
 
         public int SetMemory(int address, int value)
         {
-            AssertProgramRegisterIndex(address);
+            AssertMemoryIndex(address);
             return _memory[address] = value;
         }
 
-        private IInstruction DecodeInstruction(int opcode)
+        public void MoveInstructionPointer(int newAddress)
         {
+            AssertMemoryIndex(newAddress);
+            _instructionPointer = newAddress;
+        }
+
+        private IInstruction DecodeInstruction(int instruction)
+        {
+            var opcode = instruction % 100;
             if (!_instructionSet.ContainsKey(opcode))
             {
                 throw new InvalidOperationException($"Opcode {opcode} is not supported");
@@ -59,23 +66,31 @@ namespace AoC2019.Common.IntCodeComputer
             return _instructionSet[opcode];
         }
 
-        private int[] GetInstructionParameters(int length)
+        private Parameter[] GetInstructionParameters(int length)
         {
             if (length <= 1)
             {
-                return Array.Empty<int>();
+                return Array.Empty<Parameter>();
             }
 
-            var startParams = instructionPointer + 1;
-            var endParams = instructionPointer + length;
+            var parameters = new Parameter[length - 1];
+            var startParams = _instructionPointer + 1;
+            var endParams = _instructionPointer + length - 1;
 
-            AssertProgramRegisterIndex(startParams);
-            AssertProgramRegisterIndex(endParams - 1);
+            AssertMemoryIndex(startParams);
+            AssertMemoryIndex(endParams);
 
-            return _memory[startParams..endParams];
+            for (var index = 0; index < length - 1; index ++)
+            {
+                var mode = (ParameterMode)_memory[_instructionPointer].GetNthDigit(2 + index);
+                var value = _memory[index + startParams];
+                parameters[index] = new Parameter { Value = value, Mode = mode };
+            }
+
+            return parameters;
         }
 
-        private void AssertProgramRegisterIndex(int index)
+        private void AssertMemoryIndex(int index)
         {
             if (index < 0 || index >= _memory.Length)
             {

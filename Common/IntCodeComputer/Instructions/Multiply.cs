@@ -8,12 +8,12 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 
         public int Length => 4;
 
-        public void Execute(IntCodeComputer computer, int[] parameters)
+        public void Execute(IntCodeComputer computer, Parameter[] parameters)
         {
-            var left = computer.GetMemory(parameters[0]);
-            var right = computer.GetMemory(parameters[1]);
+            var left = parameters[0].GetValue(computer);
+            var right = parameters[1].GetValue(computer);
             var result = left * right;
-            computer.SetMemory(parameters[2], result);
+            computer.SetMemory(parameters[2].Value, result);
         }
     }
 }

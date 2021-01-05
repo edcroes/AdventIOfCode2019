@@ -8,7 +8,7 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 
         public int Length => 1;
 
-        public void Execute(IntCodeComputer computer, int[] arguments)
+        public void Execute(IntCodeComputer computer, Parameter[] arguments)
         {
             throw new NotSupportedException("The halt opcode cannot be executed");
         }
