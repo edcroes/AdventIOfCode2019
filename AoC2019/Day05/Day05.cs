@@ -22,7 +22,7 @@ namespace AoC2019.Day05
         {
             _systemToTest = 1;
             _computerOutput.Clear();
-            var program = ParseProgram(File.ReadAllText("Day05\\input.txt"));
+            var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day05\\input.txt"));
             _computer.Execute(program);
 
             return _computerOutput.Last().ToString();
@@ -32,14 +32,10 @@ namespace AoC2019.Day05
         {
             _systemToTest = 5;
             _computerOutput.Clear();
-            var program = ParseProgram(File.ReadAllText("Day05\\input.txt"));
+            var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day05\\input.txt"));
             _computer.Execute(program);
 
             return _computerOutput.Last().ToString();
         }
-
-        private static int[] ParseProgram(string program) => program.Split(",").Select(i => int.Parse(i)).ToArray();
-
-
     }
 }

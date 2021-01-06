@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AoC2019.Common.IntCodeComputer.Instructions;
 
 namespace AoC2019.Common.IntCodeComputer
@@ -95,5 +96,7 @@ namespace AoC2019.Common.IntCodeComputer
                 throw new StackOverflowException("Oops.... you're outside of the memory bounds");
             }
         }
+
+        public static int[] ParseProgram(string program) => program.Split(",").Select(i => int.Parse(i)).ToArray();
     }
 }

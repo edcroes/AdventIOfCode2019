@@ -16,7 +16,7 @@ namespace AoC2019.Day07
             BlockingCollection<int> output = new();
             var computer = CreateComputer(input, output);
 
-            var program = ParseProgram(File.ReadAllText("Day07\\input.txt"));
+            var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day07\\input.txt"));
             var phaseSettings = new[] { 0, 1, 2, 3, 4 };
             var phaseOptions = phaseSettings.GetPermutations();
 
@@ -55,7 +55,7 @@ namespace AoC2019.Day07
             var ampD = CreateComputer(inputD, inputE);
             var ampE = CreateComputer(inputE, inputA);
 
-            var program = ParseProgram(File.ReadAllText("Day07\\input.txt"));
+            var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day07\\input.txt"));
             var phaseSettings = new[] { 5, 6, 7, 8, 9 };
             var phaseOptions = phaseSettings.GetPermutations();
 
@@ -87,8 +87,6 @@ namespace AoC2019.Day07
 
             return highestOutput.ToString();
         }
-
-        private static int[] ParseProgram(string program) => program.Split(",").Select(i => int.Parse(i)).ToArray();
 
         private static IntCodeComputer CreateComputer(BlockingCollection<int> input, BlockingCollection<int> output)
         {

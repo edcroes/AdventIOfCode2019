@@ -22,7 +22,7 @@ namespace AoC2019.Day02
 
         public string GetAnswerPart1()
         {
-            var program = ParseProgram(File.ReadAllText("Day02\\input.txt"));
+            var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day02\\input.txt"));
             program[1] = 12;
             program[2] = 2;
             _computer.Execute(program);
@@ -33,7 +33,7 @@ namespace AoC2019.Day02
 
         public string GetAnswerPart2()
         {
-            var program = ParseProgram(File.ReadAllText("Day02\\input.txt"));
+            var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day02\\input.txt"));
 
             int noun, verb = 0;
             var found = false;
@@ -61,7 +61,5 @@ namespace AoC2019.Day02
             var answer = 100 * noun + verb;
             return answer.ToString();
         }
-
-        private static int[] ParseProgram(string program) => program.Split(",").Select(i => int.Parse(i)).ToArray();
     }
 }
