@@ -4,8 +4,7 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public class Output : IInstruction
     {
-        private Action<int> _setOutput;
-        public int Opcode => 4;
+        private readonly Action<int> _setOutput;
         public int Length => 2;
 
         public Output(Action<int> setOutput)

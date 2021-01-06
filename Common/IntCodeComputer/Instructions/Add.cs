@@ -4,8 +4,6 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public struct Add : IInstruction
     {
-        public int Opcode => 1;
-
         public int Length => 4;
 
         public void Execute(IntCodeComputer computer, Parameter[] parameters)

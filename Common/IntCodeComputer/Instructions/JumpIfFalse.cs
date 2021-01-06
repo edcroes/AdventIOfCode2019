@@ -4,7 +4,6 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public struct JumpIfFalse : IInstruction
     {
-        public int Opcode => 6;
         public int Length => 3;
 
         public void Execute(IntCodeComputer computer, Parameter[] parameters)

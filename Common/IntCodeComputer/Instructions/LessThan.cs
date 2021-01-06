@@ -4,7 +4,6 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public struct LessThan : IInstruction
     {
-        public int Opcode => 7;
         public int Length => 4;
 
         public void Execute(IntCodeComputer computer, Parameter[] parameters)

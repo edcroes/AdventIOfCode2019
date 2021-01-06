@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AoC2019.Common.IntCodeComputer;
@@ -15,18 +14,7 @@ namespace AoC2019.Day05
 
         public Day05()
         {
-            var instructions = new Dictionary<int, IInstruction>
-            {
-                { 1, new Add() },
-                { 2, new Multiply() },
-                { 3, new Input(() => _systemToTest) },
-                { 4, new Output(i => _computerOutput.Add(i)) },
-                { 5, new JumpIfTrue() },
-                { 6, new JumpIfFalse() },
-                { 7, new LessThan() },
-                { 8, new Equals() },
-                { 99, new Halt() }
-            };
+            var instructions = InstructionSet.CreateDefaultInstructionSet(() => _systemToTest, i => _computerOutput.Add(i));
             _computer = new IntCodeComputer(instructions);
         }
 

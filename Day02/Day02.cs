@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using AoC2019.Common.IntCodeComputer;
 using AoC2019.Common.IntCodeComputer.Instructions;
@@ -12,7 +11,7 @@ namespace AoC2019.Day02
 
         public Day02()
         {
-            var instructions = new Dictionary<int, IInstruction>
+            var instructions = new InstructionSet
             {
                 { 1, new Add() },
                 { 2, new Multiply() },

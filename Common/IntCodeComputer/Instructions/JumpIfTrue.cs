@@ -2,7 +2,6 @@
 {
     public struct JumpIfTrue : IInstruction
     {
-        public int Opcode => 5;
         public int Length => 3;
 
         public void Execute(IntCodeComputer computer, Parameter[] parameters)

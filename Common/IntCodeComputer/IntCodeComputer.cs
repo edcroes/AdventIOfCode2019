@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using AoC2019.Common.IntCodeComputer.Instructions;
 
 namespace AoC2019.Common.IntCodeComputer
@@ -8,10 +7,9 @@ namespace AoC2019.Common.IntCodeComputer
     {
         private int _instructionPointer;
         private int[] _memory;
-        private readonly Dictionary<int, IInstruction> _instructionSet;
-        private const int HaltOpcode = 99;
+        private readonly InstructionSet _instructionSet;
 
-        public IntCodeComputer(Dictionary<int, IInstruction> instructionSet)
+        public IntCodeComputer(InstructionSet instructionSet)
         {
             _instructionSet = instructionSet;
         }
@@ -28,7 +26,7 @@ namespace AoC2019.Common.IntCodeComputer
                 var parameters = GetInstructionParameters(instruction.Length);
                 _instructionPointer += instruction.Length;
 
-                if (instruction.Opcode == HaltOpcode)
+                if (instruction is Halt)
                 {
                     break;
                 }
