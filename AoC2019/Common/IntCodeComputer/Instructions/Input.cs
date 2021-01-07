@@ -2,7 +2,7 @@
 
 namespace AoC2019.Common.IntCodeComputer.Instructions
 {
-    public class Input : IInstruction
+    public struct Input : IInstruction
     {
         private readonly Func<int> _getInput;
         public int Length => 2;

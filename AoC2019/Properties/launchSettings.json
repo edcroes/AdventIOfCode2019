@@ -2,7 +2,7 @@
   "profiles": {
     "AoC2019": {
       "commandName": "Project",
-      "commandLineArgs": "1"
+      "commandLineArgs": "3"
     }
   }
 }

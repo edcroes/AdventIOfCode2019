@@ -2,7 +2,7 @@
 
 namespace AoC2019.Common.IntCodeComputer.Instructions
 {
-    public class Output : IInstruction
+    public struct Output : IInstruction
     {
         private readonly Action<int> _setOutput;
         public int Length => 2;
