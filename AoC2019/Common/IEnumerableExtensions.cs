@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AoC2019.Common
@@ -7,7 +8,7 @@ namespace AoC2019.Common
     {
         public static T[][] GetPermutations<T>(this IEnumerable<T> items)
         {
-            if (items == null || !items.Any())
+            if (items is null || !items.Any())
             {
                 return null;
             }
@@ -46,6 +47,30 @@ namespace AoC2019.Common
             }
 
             return allPermutations;
+        }
+
+        public static T[][] Split<T>(this IEnumerable<T> itemsToSplit, int sizeOfResultingArrays)
+        {
+            if (itemsToSplit is null)
+            {
+                throw new ArgumentNullException(nameof(itemsToSplit));
+            }
+
+            var arrayToSplit = itemsToSplit.ToArray();
+            if (arrayToSplit.Length % sizeOfResultingArrays != 0)
+            {
+                throw new ArgumentException("The IEnumerable cannot be divided by the size of the resulting arrays");
+            }
+
+            var parts = arrayToSplit.Length / sizeOfResultingArrays;
+            var splits = new T[parts][];
+            for (var part = 0; part < parts; part++)
+            {
+                splits[part] = arrayToSplit[(part * sizeOfResultingArrays)..((part + 1) * sizeOfResultingArrays)];
+            }
+
+            return splits;
+
         }
     }
 }
