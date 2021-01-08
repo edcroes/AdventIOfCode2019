@@ -23,16 +23,12 @@ namespace AoC2019.Day03
 
         public string GetAnswerPart1()
         {
-            // Estimated: ~40ms
             return CalculateManhattenDistanceByKeepingTrackOfLines().ToString();
-            
-            // Estimated: ~120ms
-            //return CalculateManhattenDistanceByKeepingTrackOfEachPosition().ToString();
         }
 
         public string GetAnswerPart2()
         {
-            return "throw new NotImplementedException();";
+            return CalculateStepsByKeepingTrackOfEachPosition().ToString();
         }
 
         private int CalculateManhattenDistanceByKeepingTrackOfLines()
@@ -73,22 +69,22 @@ namespace AoC2019.Day03
 
             var manhattenDistanceOfClosestPointToZero = _crossingPoints
                 .Select(p => Math.Abs(p.X) + Math.Abs(p.Y))
-                .OrderBy(d => d)
-                .First();
+                .Min();
 
             return manhattenDistanceOfClosestPointToZero;
         }
 
-        private int CalculateManhattenDistanceByKeepingTrackOfEachPosition()
+        private int CalculateStepsByKeepingTrackOfEachPosition()
         {
-            List<HashSet<Point>> allWirePaths = new();
-            HashSet<Point> _crossingPoints = new();
+            List<Dictionary<Point, int>> allWirePaths = new();
+            Dictionary<Point, int> _crossingPoints = new();
 
             foreach (var wire in _wires)
             {
+                var stepsTaken = 0;
                 var x = 0;
                 var y = 0;
-                HashSet<Point> wirePath = new();
+                Dictionary<Point, int> wirePath = new();
 
                 foreach (var movement in wire)
                 {
@@ -100,11 +96,28 @@ namespace AoC2019.Day03
                         x += movementX;
                         y += movementY;
                         var nextPosition = new Point(x, y);
-                        wirePath.Add(nextPosition);
+                        stepsTaken++;
 
-                        if (allWirePaths.Any(l => l.Contains(nextPosition)) && !_crossingPoints.Contains(nextPosition))
+                        if (!wirePath.ContainsKey(nextPosition))
                         {
-                            _crossingPoints.Add(nextPosition);
+                            wirePath.Add(nextPosition, stepsTaken);
+                        }
+
+                        var lowestStepsTakenToCrossPoint = allWirePaths.Where(l => l.ContainsKey(nextPosition)).Select(l => l[nextPosition]).OrderBy(s => s).FirstOrDefault();
+                        if (lowestStepsTakenToCrossPoint > 0)
+                        {
+                            var totalSteps = stepsTaken + lowestStepsTakenToCrossPoint;
+                            if (_crossingPoints.ContainsKey(nextPosition))
+                            {
+                                if (_crossingPoints[nextPosition] > lowestStepsTakenToCrossPoint)
+                                {
+                                    _crossingPoints[nextPosition] = lowestStepsTakenToCrossPoint;
+                                }
+                            }
+                            else
+                            {
+                                _crossingPoints.Add(nextPosition, totalSteps);
+                            }
                         }
                     }
                 }
@@ -112,12 +125,8 @@ namespace AoC2019.Day03
                 allWirePaths.Add(wirePath);
             }
 
-            var manhattenDistanceOfClosestPointToZero = _crossingPoints
-                .Select(p => Math.Abs(p.X) + Math.Abs(p.Y))
-                .OrderBy(d => d)
-                .First();
-
-            return manhattenDistanceOfClosestPointToZero;
+            var lowestStepsTakenToCrossingPoint = _crossingPoints.Values.Min();
+            return lowestStepsTakenToCrossingPoint;
         }
 
         private static int GetMovementX(Movement m) => m.Direction switch

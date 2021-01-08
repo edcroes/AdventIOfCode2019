@@ -7,7 +7,7 @@ namespace AoC2019.Tests
     [TestClass]
     public class Day03Tests : DayTestsBase<Day03.Day03>
     {
-        public Day03Tests() : base("375", "") { }
+        public Day03Tests() : base("375", "14746") { }
 
         [TestMethod]
         public void TestStraightLineIntersection()
