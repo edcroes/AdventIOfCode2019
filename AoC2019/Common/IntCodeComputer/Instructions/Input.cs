@@ -4,10 +4,10 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public struct Input : IInstruction
     {
-        private readonly Func<int> _getInput;
+        private readonly Func<long> _getInput;
         public int Length => 2;
 
-        public Input(Func<int> getInput)
+        public Input(Func<long> getInput)
         {
             _getInput = getInput;
         }

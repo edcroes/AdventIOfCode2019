@@ -5,7 +5,7 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public class InstructionSet : Dictionary<int, IInstruction>
     {
-        public static InstructionSet CreateDefaultInstructionSet(Func<int> getInput, Action<int> setOutput)
+        public static InstructionSet CreateDefaultInstructionSet(Func<long> getInput, Action<long> setOutput)
         {
             return new InstructionSet
             {

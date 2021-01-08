@@ -6,9 +6,11 @@ namespace AoC2019.Common.IntCodeComputer
 {
     public class IntCodeComputer
     {
-        private int _instructionPointer;
-        private int[] _memory;
+        private long _instructionPointer;
+        private long[] _memory;
         private readonly InstructionSet _instructionSet;
+
+        public long RelativeBase { get; set; }
 
         public IntCodeComputer(InstructionSet instructionSet)
         {
@@ -17,8 +19,13 @@ namespace AoC2019.Common.IntCodeComputer
 
         public void Execute(int[] program)
         {
+            Execute(program.Select(i => (long)i).ToArray());
+        }
+
+        public void Execute(long[] program)
+        {
             _instructionPointer = 0;
-            _memory = new int[program.Length];
+            _memory = new long[program.Length];
             Array.Copy(program, _memory, program.Length);
 
             while (true)
@@ -36,27 +43,27 @@ namespace AoC2019.Common.IntCodeComputer
             }
         }
 
-        public int GetMemory(int address)
+        public long GetMemory(long address)
         {
             AssertMemoryIndex(address);
             return _memory[address];
         }
 
-        public int SetMemory(int address, int value)
+        public void SetMemory(long address, long value)
         {
             AssertMemoryIndex(address);
-            return _memory[address] = value;
+            _memory[address] = value;
         }
 
-        public void MoveInstructionPointer(int newAddress)
+        public void MoveInstructionPointer(long newAddress)
         {
             AssertMemoryIndex(newAddress);
             _instructionPointer = newAddress;
         }
 
-        private IInstruction DecodeInstruction(int instruction)
+        private IInstruction DecodeInstruction(long instruction)
         {
-            var opcode = instruction % 100;
+            var opcode = (int)(instruction % 100);
             if (!_instructionSet.ContainsKey(opcode))
             {
                 throw new InvalidOperationException($"Opcode {opcode} is not supported");
@@ -89,7 +96,7 @@ namespace AoC2019.Common.IntCodeComputer
             return parameters;
         }
 
-        private void AssertMemoryIndex(int index)
+        private void AssertMemoryIndex(long index)
         {
             if (index < 0 || index >= _memory.Length)
             {
@@ -97,6 +104,6 @@ namespace AoC2019.Common.IntCodeComputer
             }
         }
 
-        public static int[] ParseProgram(string program) => program.Split(",").Select(i => int.Parse(i)).ToArray();
+        public static long[] ParseProgram(string program) => program.Split(",").Select(i => long.Parse(i)).ToArray();
     }
 }

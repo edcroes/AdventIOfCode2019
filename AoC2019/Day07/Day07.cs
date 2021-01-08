@@ -12,18 +12,18 @@ namespace AoC2019.Day07
     {
         public string GetAnswerPart1()
         {
-            BlockingCollection<int> input = new();
-            BlockingCollection<int> output = new();
+            BlockingCollection<long> input = new();
+            BlockingCollection<long> output = new();
             var computer = CreateComputer(input, output);
 
             var program = IntCodeComputer.ParseProgram(File.ReadAllText("Day07\\input.txt"));
             var phaseSettings = new[] { 0, 1, 2, 3, 4 };
             var phaseOptions = phaseSettings.GetPermutations();
 
-            var highestOutput = 0;
+            var highestOutput = 0L;
             foreach (var option in phaseOptions)
             {
-                var lastOutput = 0;
+                var lastOutput = 0L;
                 foreach (var phase in option)
                 {
                     input.Add(phase);
@@ -43,11 +43,11 @@ namespace AoC2019.Day07
 
         public string GetAnswerPart2()
         {
-            BlockingCollection<int> inputA = new();
-            BlockingCollection<int> inputB = new();
-            BlockingCollection<int> inputC = new();
-            BlockingCollection<int> inputD = new();
-            BlockingCollection<int> inputE = new();
+            BlockingCollection<long> inputA = new();
+            BlockingCollection<long> inputB = new();
+            BlockingCollection<long> inputC = new();
+            BlockingCollection<long> inputD = new();
+            BlockingCollection<long> inputE = new();
 
             var ampA = CreateComputer(inputA, inputB);
             var ampB = CreateComputer(inputB, inputC);
@@ -59,7 +59,7 @@ namespace AoC2019.Day07
             var phaseSettings = new[] { 5, 6, 7, 8, 9 };
             var phaseOptions = phaseSettings.GetPermutations();
 
-            var highestOutput = 0;
+            var highestOutput = 0L;
             foreach (var option in phaseOptions)
             {
                 inputA.Add(option[0]);
@@ -88,7 +88,7 @@ namespace AoC2019.Day07
             return highestOutput.ToString();
         }
 
-        private static IntCodeComputer CreateComputer(BlockingCollection<int> input, BlockingCollection<int> output)
+        private static IntCodeComputer CreateComputer(BlockingCollection<long> input, BlockingCollection<long> output)
         {
             var instructions = InstructionSet.CreateDefaultInstructionSet(() => input.Take(), i => output.Add(i));
             return new IntCodeComputer(instructions);

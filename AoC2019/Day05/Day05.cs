@@ -9,7 +9,7 @@ namespace AoC2019.Day05
     public class Day05 : IMDay
     {
         private readonly IntCodeComputer _computer;
-        private readonly List<int> _computerOutput = new();
+        private readonly List<long> _computerOutput = new();
         private int _systemToTest;
 
         public Day05()

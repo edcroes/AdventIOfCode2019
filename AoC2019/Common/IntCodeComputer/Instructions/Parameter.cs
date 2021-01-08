@@ -2,12 +2,17 @@
 {
     public struct Parameter
     {
-        public int Value { get; set; }
+        public long Value { get; set; }
         public ParameterMode Mode { get; set; }
 
-        public int GetValue(IntCodeComputer computer)
+        public long GetValue(IntCodeComputer computer)
         {
-            return Mode == ParameterMode.PositionMode ? computer.GetMemory(Value) : Value;
+            return Mode switch
+            {
+                ParameterMode.PositionMode => computer.GetMemory(Value),
+                ParameterMode.RelativeMode => computer.GetMemory(computer.RelativeBase + Value),
+                _ => Value
+            };
         }
     }
 }
