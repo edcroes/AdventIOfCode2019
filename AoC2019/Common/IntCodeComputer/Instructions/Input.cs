@@ -15,7 +15,7 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
         public void Execute(IntCodeComputer computer, Parameter[] parameters)
         {
             var input = _getInput();
-            computer.SetMemory(parameters[0].Value, input);
+            computer.SetMemory(parameters[0].GetAddress(computer), input);
         }
     }
 }

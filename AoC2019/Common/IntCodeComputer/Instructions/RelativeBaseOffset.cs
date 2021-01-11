@@ -6,7 +6,7 @@
 
         public void Execute(IntCodeComputer computer, Parameter[] parameters)
         {
-            computer.RelativeBase = parameters[0].GetValue(computer);
+            computer.RelativeBase += parameters[0].GetValue(computer);
         }
     }
 }

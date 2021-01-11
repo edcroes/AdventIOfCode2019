@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AoC2019.Common.IntCodeComputer.Instructions
+﻿namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public struct Add : IInstruction
     {
@@ -11,7 +9,7 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
             var left = parameters[0].GetValue(computer);
             var right = parameters[1].GetValue(computer);
             var result = left + right;
-            computer.SetMemory(parameters[2].Value, result);
+            computer.SetMemory(parameters[2].GetAddress(computer), result);
         }
     }
 }

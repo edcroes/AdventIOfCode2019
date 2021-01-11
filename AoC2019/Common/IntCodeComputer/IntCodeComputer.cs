@@ -9,12 +9,14 @@ namespace AoC2019.Common.IntCodeComputer
         private long _instructionPointer;
         private long[] _memory;
         private readonly InstructionSet _instructionSet;
+        private int? _fixedMemorySize;
 
         public long RelativeBase { get; set; }
 
-        public IntCodeComputer(InstructionSet instructionSet)
+        public IntCodeComputer(InstructionSet instructionSet, int? fixedMemorySize = null)
         {
             _instructionSet = instructionSet;
+            _fixedMemorySize = fixedMemorySize;
         }
 
         public void Execute(int[] program)
@@ -24,8 +26,10 @@ namespace AoC2019.Common.IntCodeComputer
 
         public void Execute(long[] program)
         {
-            _instructionPointer = 0;
-            _memory = new long[program.Length];
+            Reset();
+
+            var _memorySize = _fixedMemorySize ?? program.Length;
+            _memory = new long[_memorySize];
             Array.Copy(program, _memory, program.Length);
 
             while (true)
@@ -102,6 +106,12 @@ namespace AoC2019.Common.IntCodeComputer
             {
                 throw new StackOverflowException("Oops.... you're outside of the memory bounds");
             }
+        }
+
+        private void Reset()
+        {
+            _instructionPointer = 0;
+            RelativeBase = 0;
         }
 
         public static long[] ParseProgram(string program) => program.Split(",").Select(i => long.Parse(i)).ToArray();

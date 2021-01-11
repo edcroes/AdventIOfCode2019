@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AoC2019.Common.IntCodeComputer.Instructions
+﻿namespace AoC2019.Common.IntCodeComputer.Instructions
 {
     public struct Equals : IInstruction
     {
@@ -8,7 +6,8 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
 
         public void Execute(IntCodeComputer computer, Parameter[] parameters)
         {
-            computer.SetMemory(parameters[2].Value, parameters[0].GetValue(computer) == parameters[1].GetValue(computer) ? 1 : 0);
+            var result = parameters[0].GetValue(computer) == parameters[1].GetValue(computer) ? 1 : 0;
+            computer.SetMemory(parameters[2].GetAddress(computer), result);
         }
     }
 }

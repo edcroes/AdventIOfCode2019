@@ -17,6 +17,7 @@ namespace AoC2019.Common.IntCodeComputer.Instructions
                 { 6, new JumpIfFalse() },
                 { 7, new LessThan() },
                 { 8, new Equals() },
+                { 9, new RelativeBaseOffset() },
                 { 99, new Halt() }
             };
         }
