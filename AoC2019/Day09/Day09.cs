@@ -17,7 +17,7 @@ namespace AoC2019.Day09
         public Day09()
         {
             var instructions = InstructionSet.CreateDefaultInstructionSet(() => _computerInput.Dequeue(), i => _computerOutput.Add(i));
-            var memSize = 1024 * 1024 / sizeof(long); // 1MB 
+            var memSize = 1024 * 32 / sizeof(long); // 1MB 
             _computer = new IntCodeComputer(instructions, memSize);
             _program = IntCodeComputer.ParseProgram(File.ReadAllText("Day09\\input.txt"));
         }

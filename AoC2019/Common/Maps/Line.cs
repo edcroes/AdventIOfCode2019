@@ -5,13 +5,34 @@ namespace AoC2019.Common.Maps
 {
     public struct Line
     {
-        public Point From { get; }
-        public Point To { get; }
+        public Point From { get; init; }
+        public Point To { get; init; }
 
         public Line(Point from, Point to)
         {
             From = from;
             To = to;
+        }
+
+        public double Length
+        {
+            get
+            {
+                var lengthX = Math.Abs(To.X - From.X);
+                var lengthY = Math.Abs(To.Y - From.Y);
+                if (lengthY == 0) return lengthX;
+                if (lengthX == 0) return lengthY;
+                return Math.Sqrt(lengthX * lengthX + lengthY * lengthY);
+            }
+        }
+
+        public double Angle
+        {
+            get
+            {
+                var angle = Math.Atan2(To.Y - From.Y, To.X - From.X);
+                return (angle >= 0 ? angle : 2 * Math.PI + angle) * 360 / (2 * Math.PI);
+            }
         }
 
         public PointF? GetIntersectionWithLine(Line other)
