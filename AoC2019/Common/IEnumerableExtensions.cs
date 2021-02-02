@@ -70,7 +70,22 @@ namespace AoC2019.Common
             }
 
             return splits;
+        }
 
+        public static T GetNextItem<T>(this IEnumerable<T> items, T currentItem)
+        {
+            var array = items is T[] arr ? arr : items.ToArray();
+            var currentIndex = Array.IndexOf(array, currentItem);
+
+            return array[(currentIndex + 1) % array.Length];
+        }
+
+        public static T GetPreviousItem<T>(this IEnumerable<T> items, T currentItem)
+        {
+            var array = items is T[] arr ? arr : items.ToArray();
+            var currentIndex = Array.IndexOf(array, currentItem);
+
+            return array[--currentIndex < 0 ? array.Length - 1 : currentIndex];
         }
     }
 }
