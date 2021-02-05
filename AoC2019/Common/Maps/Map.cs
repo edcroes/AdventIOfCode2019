@@ -31,6 +31,11 @@ namespace AoC2019.Common.Maps
             return _map[y, x];
         }
 
+        public void SetValue(Point location, T value)
+        {
+            SetValue(location.X, location.Y, value);
+        }
+
         public void SetValue(int x, int y, T value)
         {
             _map[y, x] = value;
