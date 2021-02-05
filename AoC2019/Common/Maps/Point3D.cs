@@ -1,4 +1,6 @@
-﻿namespace AoC2019.Common.Maps
+﻿using System;
+
+namespace AoC2019.Common.Maps
 {
     public struct Point3D
     {
@@ -12,5 +14,10 @@
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(X, Y, Z);
+        }
     }
 }

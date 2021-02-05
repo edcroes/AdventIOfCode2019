@@ -1,4 +1,6 @@
-﻿namespace AoC2019.Common
+﻿using System;
+
+namespace AoC2019.Common
 {
     public static class AoCMath
     {
@@ -10,6 +12,33 @@
                 fact *= next;
             }
             return fact;
+        }
+
+        public static long GreatestCommonDivisor(long a, long b)
+        {
+            if (a < 0 || b < 0)
+            {
+                throw new ArgumentException("Both a and b should be greater than or equal to 0");
+            }
+
+            if (a == 0)
+            {
+                return b;
+            }
+
+            while (b != 0)
+            {
+                var newA = b;
+                b = a % b;
+                a = newA;
+            }
+
+            return a;
+        }
+
+        public static long LeastCommonMultiple(long a, long b)
+        {
+            return (a * b) / GreatestCommonDivisor(a, b);
         }
     }
 }

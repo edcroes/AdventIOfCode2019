@@ -1,6 +1,4 @@
-using AoC2019.Common.Maps;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Drawing;
 
 namespace AoC2019.Tests
 {

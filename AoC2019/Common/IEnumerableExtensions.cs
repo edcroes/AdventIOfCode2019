@@ -87,5 +87,31 @@ namespace AoC2019.Common
 
             return array[--currentIndex < 0 ? array.Length - 1 : currentIndex];
         }
+
+        public static bool AreEqual<T>(this IEnumerable<T> first, IEnumerable<T> second)
+        {
+            if (first is null || second is null)
+            {
+                return false;
+            }
+
+            var firstArray = first.ToArray();
+            var secondArray = second.ToArray();
+
+            if (firstArray.Length != secondArray.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < firstArray.Length; i++)
+            {
+                if (!firstArray[i].Equals(secondArray[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
