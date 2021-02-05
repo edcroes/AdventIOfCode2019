@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -17,7 +15,7 @@ namespace AoC2019.Day12
         private const int Y = 1;
         private const int Z = 2;
         private static readonly Regex PointRegex = new Regex("^<x=(-{0,1}\\d+), y=(-{0,1}\\d+), z=(-{0,1}\\d+)>$");
-        private List<Moon> _moons = new List<Moon>();
+        private readonly List<Moon> _moons = new List<Moon>();
 
         public string GetAnswerPart1()
         {
