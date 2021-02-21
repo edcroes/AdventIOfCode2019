@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace AoC2019.Common.Maps
 {
@@ -16,6 +17,21 @@ namespace AoC2019.Common.Maps
             _map = new T[y, x];
         }
 
+        public Map(T[][] grid)
+        {
+            _map = new T[grid.Length, grid[0].Length];
+
+            for (var y = 0; y < grid.Length; y++)
+            {
+                for (var x = 0; x < grid[0].Length; x++)
+                {
+                    SetValue(x, y, grid[y][x]);
+                }
+            }
+        }
+
+        public T GetValueOrDefault(Point point) => GetValueOrDefault(point.X, point.Y);
+
         public T GetValueOrDefault(int x, int y)
         {
             if (x < 0 || x >= SizeX || y < 0 || y >= SizeY)
@@ -26,20 +42,13 @@ namespace AoC2019.Common.Maps
             return GetValue(x, y);
         }
 
-        public T GetValue(int x, int y)
-        {
-            return _map[y, x];
-        }
+        public T GetValue(Point point) => GetValue(point.X, point.Y);
 
-        public void SetValue(Point location, T value)
-        {
-            SetValue(location.X, location.Y, value);
-        }
+        public T GetValue(int x, int y) => _map[y, x];
 
-        public void SetValue(int x, int y, T value)
-        {
-            _map[y, x] = value;
-        }
+        public void SetValue(Point location, T value) => SetValue(location.X, location.Y, value);
+
+        public void SetValue(int x, int y, T value) => _map[y, x] = value;
 
         public T[] GetLine(int fromX, int fromY, int toX, int toY)
         {
@@ -103,26 +112,9 @@ namespace AoC2019.Common.Maps
             RotateRight();
         }
 
-        public int Count(T valueToMatch)
-        {
-            int count = 0;
-            for (int y = 0; y < SizeY; y++)
-            {
-                for (int x = 0; x < SizeX; x++)
-                {
-                    if (_map[y, x].Equals(valueToMatch))
-                    {
-                        count++;
-                    }
-                }
-            }
-
-            return count;
-        }
-
         public void DistributeChaos(T aliveValue, Func<bool, int, T> getNewValue)
         {
-            DistributeChaos(aliveValue, (map, point) => NumberOfNeighborsThatMatch(map, point, aliveValue), getNewValue);
+            DistributeChaos(aliveValue, (map, point) => NumberOfStraightAndDiagonalNeighborsThatMatch(map, point, aliveValue), getNewValue);
         }
 
         public void DistributeChaos(T aliveValue, Func<Map<T>, Point, int> getNumberOfNeighborsThatMatch, Func<bool, int, T> getNewValue)
@@ -151,12 +143,23 @@ namespace AoC2019.Common.Maps
             }
         }
 
-        public int NumberOfNeighborsThatMatch(Point point, T valueToMatch)
+        public int NumberOfStraightNeighborsThatMatch(Point point, T valueToMatch)
         {
-            return NumberOfNeighborsThatMatch(this, point, valueToMatch);
+            var neighbors = new Point[]
+            {
+                new Point(point.X - 1, point.Y),
+                new Point(point.X, point.Y - 1),
+                new Point(point.X + 1, point.Y),
+                new Point(point.X, point.Y + 1)
+            };
+
+            return neighbors.Count(n => valueToMatch.Equals(GetValueOrDefault(n.X, n.Y)));
         }
 
-        private static int NumberOfNeighborsThatMatch(Map<T> map, Point point, T valueToMatch)
+        public int NumberOfStraightAndDiagonalNeighborsThatMatch(Point point, T valueToMatch) =>
+            NumberOfStraightAndDiagonalNeighborsThatMatch(this, point, valueToMatch);
+
+        private static int NumberOfStraightAndDiagonalNeighborsThatMatch(Map<T> map, Point point, T valueToMatch)
         {
             var numberOfMatches = 0;
             for (int y = Math.Max(point.Y - 1, 0); y <= point.Y + 1 && y < map.SizeY; y++)
@@ -209,9 +212,6 @@ namespace AoC2019.Common.Maps
             return result;
         }
 
-        public T[,] To2DArray()
-        {
-            return (T[,])_map.Clone();
-        }
+        public T[,] To2DArray() => (T[,])_map.Clone();
     }
 }
